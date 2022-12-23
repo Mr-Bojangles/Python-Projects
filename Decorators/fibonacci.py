@@ -1,9 +1,13 @@
-from timeit import timeit as timer
+from time import time as timer
+from functools import cache
 
 
+@cache
 def fib(n):
     """
-    Recursively calculate the Fibonacci numbers for the numbers 0 to n (exclusive)
+    Recursively calculate the Fibonacci numbers for the numbers 0 to n (exclusive).
+
+    The cache decorator to be store and applied to subsequent calcuations, greatly reducing compute time.
 
     Args:
         n (int): The length of the Fibonacci sequence to be  generated
@@ -14,14 +18,14 @@ def fib(n):
 
 def main():
 
-    n = 10
+    n = 1000
 
     start = timer()
     for i in range(n):
         fib(i)
     stop = timer()
 
-    print(f"")
+    print(f"Average time: {stop - start:.05f} seconds.")
 
 
 if __name__ == "__main__":

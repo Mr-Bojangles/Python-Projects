@@ -25,7 +25,7 @@ def main():
         fib(i)
     stop = timer()
 
-    print(f"Average time: {stop - start:.05f} seconds.")
+    print(f"Time to compute Fibonnaci sequence to n={n}: {stop - start:.05f} seconds.")
 
 
 if __name__ == "__main__":

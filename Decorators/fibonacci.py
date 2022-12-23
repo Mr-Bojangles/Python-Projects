@@ -9,10 +9,7 @@ def fib(n):
         n (int): The length of the Fibonacci sequence to be  generated
     """
 
-    if n <= 1:
-        return n
-    else:
-        return fib(n - 1) + fib(n - 2)
+    return n if n <= 1 else fib(n - 1) + fib(n - 2)
 
 
 def main():

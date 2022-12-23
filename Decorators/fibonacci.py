@@ -7,7 +7,7 @@ def fib(n):
     """
     Recursively calculate the Fibonacci numbers for the numbers 0 to n (exclusive).
 
-    The cache decorator to be store and applied to subsequent calcuations, greatly reducing compute time.
+    The cache decorator stores values to be applied to subsequent calcuations, greatly reducing compute time.
 
     Args:
         n (int): The length of the Fibonacci sequence to be  generated

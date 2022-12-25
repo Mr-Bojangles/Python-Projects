@@ -15,13 +15,16 @@ class Fibonacci:
     has a list acting as a local cache of the sequence, speeding up lookup times for already
     calculated values and improving memory usage over the recursive Fibonacci calculation.
 
-    Attributes:
+    Class Attributes:
+        None
+
+    Instance Attributes:
         cache (list[int]): Stores Fibonacci sequence
     """
 
     def __init__(self):
         """
-        Initialize class attributes.
+        Initialize instance attributes.
         """
 
         self.cache = [0, 1]

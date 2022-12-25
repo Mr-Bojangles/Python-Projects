@@ -66,6 +66,12 @@ class Fibonacci:
 def main():
     """
     Run Fibonacci sequence calculation.
+
+    Args:
+        None
+
+    Returns:
+        None
     """
 
     fib = Fibonacci()

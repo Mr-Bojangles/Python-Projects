@@ -53,7 +53,9 @@ def main():
 
     n = int(input("Input a number: "))
 
-    print(f"The Fibonacci sequence for n={n} is {fib(n)}")
+    seq = fib(n)
+
+    print(f"The Fibonacci sequence for n={n} is {seq}")
 
 
 if __name__ == "__main__":

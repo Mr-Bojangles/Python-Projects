@@ -1,19 +1,32 @@
+"""
+Custom module for calculating Fibonacci sequences.
+
+Class(es):
+    Fibonacci
+
+Function(s):
+    None
+"""
+
+
 class Fibonacci:
     """
     Iteratively calculate the Fibonacci sequence for a given number.  Additionally, each instance
     has a list acting as a local cache of the sequence, speeding up lookup times for already
     calculated values and improving memory usage over the recursive Fibonacci calculation.
+
+    Attributes:
+        cache (list[int]): Stores Fibonacci sequence
     """
 
     def __init__(self):
         """
-        To calculate iteratively, the Fibonacci sequence must be seeded with the first two
-        values: [0, 1].
+        Initialize class attributes.
         """
 
         self.cache = [0, 1]
 
-    def __call__(self, n):
+    def __call__(self, n: int) -> list[int]:
         """
         Iteratively calculate a Fibonacci sequence by using the fact that the next number in
         the sequence only relies on the sum of the previous two numbers in the sequence.  An
@@ -26,7 +39,7 @@ class Fibonacci:
             ValueError: n must be a positive integer
 
         Returns:
-            List: The Fibonacci sequence of a number n
+            list: The Fibonacci sequence of a number n
         """
 
         # Guard statements
@@ -44,16 +57,19 @@ class Fibonacci:
         return self.cache
 
     def __repr__(self) -> str:
-        return f"fib = Fibonacci()\nfib(n)"
+        return "fib = Fibonacci()\nfib(n)"
 
 
 def main():
+    """
+    Run Fibonacci sequence calculation.
+    """
 
     fib = Fibonacci()
 
-    n = int(input("Input a number: "))
+    n: int = int(input("Input a number: "))
 
-    seq = fib(n)
+    seq: list[int] = fib(n)
 
     print(f"The Fibonacci sequence for n={n} is {seq}")
 

@@ -1,3 +1,14 @@
+"""
+Custom module for timing decorators.
+
+Class(es):
+    None
+
+Function(s):
+    simple_timer(function) -> function
+    simple_add(int, int) -> int
+"""
+
 from time import time as timer
 
 
@@ -21,7 +32,7 @@ def simple_timer(func):
 
 
 @simple_timer
-def simple_add(n):
+def simple_add(n: int) -> int:
     """
     Simple function to sum numbers from 1 to n inclusive.
 
@@ -36,6 +47,15 @@ def simple_add(n):
 
 
 def main():
+    """
+    Module run method.
+
+    Args:
+        None
+
+    Returns:
+        None
+    """
 
     n = 1000
 

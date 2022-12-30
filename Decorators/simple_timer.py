@@ -9,6 +9,7 @@ Function(s):
     simple_add(int, int) -> int
 """
 
+from functools import wraps
 from time import time as timer
 
 
@@ -20,6 +21,9 @@ def simple_timer(func):
         func (function): Function to be timed
     """
 
+    # Use wraps decorator to preserve info of original function passed to decorator
+    # This is always important, but especially in case of chained decorators
+    @wraps(func)
     def time_wrap(*args, **kwargs):
         start = timer()
         value = func(*args, **kwargs)

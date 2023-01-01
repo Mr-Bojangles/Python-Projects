@@ -112,7 +112,7 @@ def display():
 # @DecoratorClass # Will behave the same as decorator_func
 def display_info(name: str, age: int):
     """
-    Simple function to demonstrate how to use a decorator with arguments.
+    Simple function to demonstrate how to use a decorator with a function that takes arguments.
 
     Args:
         name (str): A user's name
@@ -151,7 +151,7 @@ def my_logger(function):
 @my_logger
 def logging_info(name: str, age: int):
     """
-    Simple function to demonstrate how to use a decorator with arguments and log it.
+    Simple function to demonstrate how to use a decorator with a function that takes arguments and log it.
 
     Args:
         name (str): A user's name

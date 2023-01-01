@@ -12,7 +12,7 @@ Function(s):
 import time
 
 import numpy as np
-from numba import jit, njit
+from numba import njit
 
 
 def numpy_features(matrix: np.array) -> None:

@@ -46,7 +46,7 @@ class Fibonacci:
         """
 
         # Guard statements
-        if not (isinstance(n, int)):
+        if not isinstance(n, int):
             raise ValueError(f"Integer expected, got {n}")
         if n < 0:
             return f"Expect positive integer, got {n}"

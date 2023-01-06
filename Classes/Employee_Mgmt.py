@@ -57,7 +57,7 @@ class Employee(ABC):
 
     name: str
     role: Role
-    vacation_days: int = 25
+    vacation_days: int = 1
 
     @abstractmethod
     def pay(self) -> None:
@@ -74,7 +74,7 @@ class Employee(ABC):
             raise VacationDaysShortageError(
                 requested_days=1,
                 remaining_days=self.vacation_days,
-                message="You don't have any vacation days remaining.",
+                message=(f"{self.name}, you don't have any vacation days remaining."),
             )
 
         self.vacation_days -= 1
@@ -177,6 +177,7 @@ def main() -> None:
     print(company.find_employee(role=Role.WORKER))  # Should contain 2 worker employees
 
     company.employees[0].pay()
+    company.employees[0].take_holiday()
     company.employees[0].take_holiday()
 
 

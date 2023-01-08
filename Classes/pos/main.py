@@ -8,7 +8,10 @@ Function(s):
     main -> None
 """
 
+from pos_system.customer import Customer
+from pos_system.line_item import LineItem
 from pos_system.order import Order
+from pos_system.payment import StripePaymentProcessor
 from pos_system.system import POSSystem
 
 
@@ -17,14 +20,23 @@ def main() -> None:
     Module run function.
     """
 
-    system = POSSystem()
-    system.setup_payment_processor("https://api.stripe.com/v2")
+    payment_processor = StripePaymentProcessor.create("https://api.stripe.com/v2")
+    system = POSSystem(payment_processor)
 
-    order = Order(12345, "Craig", "100 Any St.", "00001", "Anywhere", "junk@email.com")
+    customer = Customer(
+        id=12345,
+        name="Craig",
+        address="100 Any St.",
+        postal_code="00001",
+        city="Anywhere",
+        email="junk@email.com",
+    )
 
-    order.create_line_item("Keyboard", 1, 5_000)
-    order.create_line_item("SSD", 1, 15_000)
-    order.create_line_item("USB 3 Cable", 3, 500)
+    order = Order(customer)
+
+    order.add_line_item(LineItem(item="Keyboard", quantity=1, price=5_000))
+    order.add_line_item(LineItem(item="SSD", quantity=1, price=15_000))
+    order.add_line_item(LineItem(item="USB 3 Cable", quantity=3, price=500))
 
     system.register_order(order)
     system.process_order(order)

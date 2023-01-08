@@ -10,9 +10,9 @@ Function(s):
 
 import random
 import string
+from typing import Protocol
 
 from pos_system.order import Order, OrderStatus
-from pos_system.payment import StripePaymentProcessor
 
 
 def generate_id(length: int = 6) -> str:
@@ -28,6 +28,21 @@ def generate_id(length: int = 6) -> str:
     return "".join(random.choices(string.ascii_uppercase, k=length))
 
 
+class PaymentProcessor(Protocol):
+    """
+    Interface for payment processing.
+    """
+
+    def process_payment(self, reference: str, price: int) -> None:
+        """
+        Process payment for an order.
+
+        Args:
+            reference (str): ID of order to process for payment
+            price (int): Total price of an order
+        """
+
+
 class POSSystem:
     """
     Class defining the point-of-sale system.
@@ -37,19 +52,9 @@ class POSSystem:
         orders (dict[str, Order]): Dictionary of Orders, keyed by order ID
     """
 
-    def __init__(self):
-        self.payment_processor = StripePaymentProcessor(self)
+    def __init__(self, payment_processor: PaymentProcessor):
+        self.payment_processor = payment_processor
         self.orders: dict[str, Order] = {}
-
-    def setup_payment_processor(self, url: str) -> None:
-        """
-        Create connection to a payment processor.
-
-        Args:
-            url (str): Address of payment processor
-        """
-
-        self.payment_processor.connect_to_service(url)
 
     def register_order(self, order: Order):
         """
@@ -76,22 +81,6 @@ class POSSystem:
 
         return self.orders[order_id]
 
-    def compute_order_total_price(self, order: Order) -> int:
-        """
-        Calculate total price of a given order.
-
-        Args:
-            order (Order): Order to calculate price for
-
-        Returns:
-            int: Total price of given order
-        """
-
-        total = 0
-        for i in range(len(order.prices)):
-            total += order.quantities[i] * order.prices[i]
-        return total
-
     def process_order(self, order: Order) -> None:
         """
         Process order for payment and shipping.
@@ -99,6 +88,6 @@ class POSSystem:
         Args:
             order (Order): Order to process
         """
-        self.payment_processor.process_payment(order.id)
+        self.payment_processor.process_payment(order.id, order.total_price)
         order.set_status(OrderStatus.PAID)
         print("Shipping order to customer.")

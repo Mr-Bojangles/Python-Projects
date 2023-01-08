@@ -12,6 +12,9 @@ Function(s):
 from dataclasses import dataclass, field
 from enum import Enum, auto
 
+from pos_system.customer import Customer
+from pos_system.line_item import LineItem
+
 
 class OrderStatus(Enum):
     """
@@ -31,19 +34,12 @@ class Order:
     Representation of an order.
     """
 
-    customer_id: int = 0
-    customer_name: str = ""
-    customer_address: str = ""
-    customer_postal_code: str = ""
-    customer_city: str = ""
-    customer_email: str = ""
-    items: list[str] = field(default_factory=list)
-    quantities: list[int] = field(default_factory=list)
-    prices: list[int] = field(default_factory=list)
+    customer: Customer
+    items: list[LineItem] = field(default_factory=list)
     _status: OrderStatus = OrderStatus.OPEN
     id: str = ""
 
-    def create_line_item(self, name: str, quantity: int, price: float) -> None:
+    def add_line_item(self, item: LineItem) -> None:
         """
         Method to add a line item to an an order.
 
@@ -53,9 +49,7 @@ class Order:
             price (float): Price of the item
         """
 
-        self.items.append(name)
-        self.quantities.append(quantity)
-        self.prices.append(price)
+        self.items.append(item)
 
     def set_status(self, status: OrderStatus) -> None:
         """
@@ -64,4 +58,16 @@ class Order:
         Args:
             status (OrderStatus)
         """
+
         self._status = status
+
+    @property
+    def total_price(self) -> int:
+        """
+        Calculate total price of an order.
+
+        Returns:
+            int: Total price
+        """
+
+        return sum(line_item.total_price for line_item in self.items)

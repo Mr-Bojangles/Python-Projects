@@ -3,48 +3,17 @@ Module for defining and connecting to a payment processor.
 
 Class(es):
     PaymentServiceConnectionError
-    OrderRepository
     StripePaymentProcessor
 
 Function(s):
     None
 """
 
-from typing import Protocol
-
-from pos_system.order import Order
+from __future__ import annotations
 
 
 class PaymentServiceConnectionError(Exception):
     """Custom error that is raised when we can't connect to the payment service."""
-
-
-class OrderRepository(Protocol):
-    """
-    Interface for an order repository.
-    """
-
-    def find_order(self, order_id: str) -> Order:
-        """
-        Find an order with a given ID.
-
-        Args:
-            order_id (str): ID of order to be found
-
-        Returns:
-            Order
-        """
-
-    def compute_order_total_price(self, order: Order) -> int:
-        """
-        Calculate the total price of an order.
-
-        Args:
-            order (Order): Order to calculate price for
-
-        Returns:
-            int: Total price of the order
-        """
 
 
 class StripePaymentProcessor:
@@ -56,9 +25,29 @@ class StripePaymentProcessor:
         system (OrderRepository): Order repository for order payment processing
     """
 
-    def __init__(self, system: OrderRepository) -> None:
+    def __init__(self) -> None:
         self.connected = False
-        self.system = system
+
+    # Use __future__.annotations so that interpreter can recognize types that haven't been annotated
+    # In this case, returning type StripePaymentProcessor before it is instantiated
+    @staticmethod
+    def create(url: str) -> StripePaymentProcessor:
+        """
+        Create a connection to payment processor.
+
+        FUTURE: Separating the connection object from the POS system like this can allow for
+        async operations.
+
+        Args:
+            url (str): Address of payment processor
+
+        Returns:
+            StripePaymentProcessor: Connection object for payment processor
+        """
+
+        obj = StripePaymentProcessor()
+        obj.connect_to_service(url)
+        return obj
 
     def connect_to_service(self, url: str) -> None:
         """
@@ -71,12 +60,13 @@ class StripePaymentProcessor:
         print(f"Connecting to payment processing service at url {url}... done!")
         self.connected = True
 
-    def process_payment(self, order_id: str) -> None:
+    def process_payment(self, reference: str, price: int) -> None:
         """
         Process payment for a given order.
 
         Args:
-            order_id (str): ID of order to process for payment
+            reference (str): ID of order to process for payment
+            price (int): Total price of an order
 
         Raises:
             PaymentServiceConnectionError
@@ -84,8 +74,4 @@ class StripePaymentProcessor:
 
         if not self.connected:
             raise PaymentServiceConnectionError()
-        order = self.system.find_order(order_id)
-        total_price = self.system.compute_order_total_price(order)
-        print(
-            f"Processing payment of ${(total_price / 100):.2f}, reference: {order.id}."
-        )
+        print(f"Processing payment of ${(price / 100):.2f}, reference: {reference}.")

@@ -70,7 +70,7 @@ class VehicleModelInfo:
         return tax_percentage * self.catalogue_price
 
     def __str__(self) -> str:
-        return f"Brand: {self.brand} - Type: {self.model} - Tax: {self.tax}"
+        return f"Brand: {self.brand} - Model: {self.model} - Production Year: {self.production_year} - Tax: {self.tax:.2f}"
 
 
 @dataclass
@@ -181,12 +181,12 @@ class VehicleRegistry:
 
         if not self.online:
             return RegistryStatus.OFFLINE
-        else:
-            return (
-                RegistryStatus.CONNECTION_ERROR
-                if len(self.vehicle_models) == 0
-                else RegistryStatus.ONLINE
-            )
+
+        return (
+            RegistryStatus.CONNECTION_ERROR
+            if len(self.vehicle_models) == 0
+            else RegistryStatus.ONLINE
+        )
 
 
 def main():
@@ -199,7 +199,7 @@ def main():
 
     # Add vehicle models
     registry.add_model_info(VehicleModelInfo("Tesla", "Model 3", 50000))
-    registry.add_model_info(VehicleModelInfo("Volkswagen", "ID3", 35000))
+    registry.add_model_info(VehicleModelInfo("Volkswagen", "ID3", 35000, 2022))
     registry.add_model_info(VehicleModelInfo("BMW", "520e", 60000, FuelType.GASOLINE))
     registry.add_model_info(VehicleModelInfo("Audi", "e-tron Sportback", 55000))
 

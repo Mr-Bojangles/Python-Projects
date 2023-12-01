@@ -51,7 +51,7 @@ class Fibonacci:
         if n < 0:
             raise ValueError(f"Expect positive integer, got {n}")
         if n < len(self.cache):
-            return self.cache[n]
+            return self.cache
 
         for _ in range(2, n):
             fib_num = self.cache[-2] + self.cache[-1]

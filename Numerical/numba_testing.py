@@ -20,9 +20,10 @@ import random
 import time
 
 import numpy as np
-import pandas as pd
-import pandas_datareader as web
-from numba import jit, njit
+import numpy.typing as npt
+import pandas as pd  # type: ignore
+import pandas_datareader as web  # type: ignore
+from numba import jit, njit  # type: ignore
 
 
 def test(n: int) -> float:
@@ -35,7 +36,7 @@ def test(n: int) -> float:
     Returns:
         float: The result of computation
     """
-    c = 0
+    c = 0.0
 
     for _ in range(n):
         a = random.random()
@@ -56,7 +57,7 @@ def test_numba(n: int) -> float:
     Returns:
         float: The result of computation
     """
-    c = 0
+    c = 0.0
 
     for _ in range(n):
         a = random.random()
@@ -66,7 +67,7 @@ def test_numba(n: int) -> float:
     return c
 
 
-def test_numpy(n: int) -> float:
+def test_numpy(n: int) -> npt.NDArray:
     """
     Simple function without JIT to compare normal Numpy performance to Numba JIT performance.
 
@@ -87,7 +88,7 @@ def test_numpy(n: int) -> float:
 
 
 @njit  # nopython=True by default == @jit(nopython=True) <- Machine code ONLY
-def test_numpy_numba(n: int) -> float:
+def test_numpy_numba(n: int) -> npt.NDArray:
     """
     Simple function with JIT to compare normal Numpy performance to Numba JIT performance.
 

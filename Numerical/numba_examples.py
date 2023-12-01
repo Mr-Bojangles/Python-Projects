@@ -12,10 +12,11 @@ Function(s):
 import time
 
 import numpy as np
-from numba import njit
+import numpy.typing as npt
+from numba import njit  # type: ignore
 
 
-def numpy_features(matrix: np.array) -> None:
+def numpy_features(matrix: npt.NDArray) -> None:
     """
     Simple function demonstrating basic features of NumPy.
 
@@ -32,7 +33,7 @@ def numpy_features(matrix: np.array) -> None:
 
 
 @njit  # nopython=True by default == @jit(nopython=True) <- Machine code ONLY
-def numba_features(matrix: np.array) -> None:
+def numba_features(matrix: npt.NDArray) -> None:
     """
     Simple function demonstrating using Numba with NumPy.
 

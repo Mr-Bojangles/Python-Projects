@@ -22,7 +22,7 @@ class Fibonacci:
         cache (list[int]): Stores Fibonacci sequence
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initialize instance attributes.
         """
@@ -49,7 +49,7 @@ class Fibonacci:
         if not isinstance(n, int):
             raise ValueError(f"Integer expected, got {n}")
         if n < 0:
-            return f"Expect positive integer, got {n}"
+            raise ValueError(f"Expect positive integer, got {n}")
         if n < len(self.cache):
             return self.cache[n]
 
@@ -76,9 +76,9 @@ def main():
 
     fib = Fibonacci()
 
-    n: int = int(input("Input a number: "))
+    n = int(input("Input a number: "))
 
-    seq: list[int] = fib(n)
+    seq = fib(n)
 
     print(f"The Fibonacci sequence for n={n} is {seq}")
 

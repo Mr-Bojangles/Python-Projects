@@ -70,7 +70,10 @@ class VehicleModelInfo:
         return tax_percentage * self.catalogue_price
 
     def __str__(self) -> str:
-        return f"Brand: {self.brand} - Model: {self.model} - Production Year: {self.production_year} - Tax: {self.tax:.2f}"
+        return (
+            f"Brand: {self.brand} - Model: {self.model} - Production Year: "
+            + f"{self.production_year} - Tax: {self.tax:.2f}"
+        )
 
 
 @dataclass
@@ -200,8 +203,11 @@ def main():
     # Add vehicle models
     registry.add_model_info(VehicleModelInfo("Tesla", "Model 3", 50000))
     registry.add_model_info(VehicleModelInfo("Volkswagen", "ID3", 35000, 2022))
-    registry.add_model_info(VehicleModelInfo("BMW", "520e", 60000, FuelType.GASOLINE))
+    registry.add_model_info(
+        VehicleModelInfo("BMW", "520e", 60000, fuel_type=FuelType.GASOLINE)
+    )
     registry.add_model_info(VehicleModelInfo("Audi", "e-tron Sportback", 55000))
+    registry.add_model_info(VehicleModelInfo("Mercedes-Benz", "C350", 65000))
 
     # Verify registry is online
     print(f"Registry Status: {registry.online_status().name}")
@@ -210,9 +216,10 @@ def main():
     vehicle = registry.register_vehicle("Volkswagen", "ID3")
     print(vehicle)
 
-    # Register a vehicle that hasn't yet been added to registry
-    # vehicle2 = registry.register_vehicle("Ford", "Bronco")
-    # print(vehicle2)
+    vehicle2 = registry.register_vehicle("BMW", "520e")
+    print(vehicle2)
+
+    print(f"Info on a BMW 520e: {registry.find_model_info('BMW', '520e')}")
 
 
 if __name__ == "__main__":

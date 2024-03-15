@@ -9,7 +9,8 @@ Function(s):
     simple_add(int, int) -> int
 """
 
-from functools import wraps
+from functools import reduce, wraps
+from operator import mul
 from time import time as timer
 
 
@@ -38,7 +39,7 @@ def simple_timer(func):
 @simple_timer
 def simple_add(n: int) -> int:
     """
-    Simple function to sum numbers from 1 to n inclusive.
+    Simple function to sum integers from 1 to n inclusive.
 
     Args:
         n (int): Number of digits to sum
@@ -48,6 +49,20 @@ def simple_add(n: int) -> int:
     """
 
     return sum(range(1, n + 1))
+
+@simple_timer
+def simple_multiply(n: int) -> int:
+    """
+    Simple function to multiple integers from 1 to n inclusive.
+
+    Args:
+        n (int): Number of digits to multiply
+
+    Returns:
+        int: Product of numbers 1 to n inclusive
+    """
+
+    return reduce(mul, range(1, n+1)) 
 
 
 def main():
@@ -64,6 +79,8 @@ def main():
     n = 1000
 
     print(f"Sum of numbers from 1 to {n}: {simple_add(n)}")
+
+    print(f"Product of numbers from to 10: {simple_multiply(10)}")
 
 
 if __name__ == "__main__":
